@@ -503,7 +503,7 @@ int indiceRegistoPassagem( RegistoPassagem vec[], int tamanho, int dorsal )
 RegistoPassagem getRegistoPassagem( RegistoPassagem vec[], int tamanho, int dorsal )
 {
   /* CÓDIGO A CRIAR PELOS ALUNOS */
-  RegistoPassagem algumRegisto;  /* CÓDIGO PROVISÓRIO -- NECESSÁRIO ALTERAR */
+  RegistoPassagem algumRegisto = {-1, -1};  /* CÓDIGO PROVISÓRIO -- NECESSÁRIO ALTERAR */
   return algumRegisto;  /* return PROVISÓRIO -- NECESSÁRIO ALTERAR */
 }
 

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "corrida.h"
-#include "graficos.h"
+#include "compilacao_opcional/graficos.h"
 
 int main( void )
 {
