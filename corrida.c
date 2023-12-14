@@ -531,6 +531,7 @@ RegistoPassagem getRegistoPassagem( RegistoPassagem vec[], int tamanho, int dors
 }
 
 
+/* PRECISA DE SER TESTADO */
 void registaPosicoesPostos( int nAtletas, RegistoPassagem tabela[][NR_ATLETAS],
                             int nPostos, int dorsal, int posicoes[] )
 {
@@ -538,11 +539,9 @@ void registaPosicoesPostos( int nAtletas, RegistoPassagem tabela[][NR_ATLETAS],
   int i, index;
 
   for (i = 0; i < nPostos; i++) {
-    index = getIndexAthlete(tabela[i], dorsal, nAtletas);
+    index = indiceRegistoPassagem(tabela[i], nAtletas, dorsal);
 
     posicoes[i] = tabela[i][index].tempoPassagem;
-
-
   }
   
 }
@@ -553,17 +552,4 @@ int filtraEscalaoNacionalidade( Atleta vecOrigem[], Atleta vecDestino[],
 {
   /* CÓDIGO A CRIAR PELOS ALUNOS */
   return 0;  /* return PROVISÓRIO -- NECESSÁRIO ALTERAR */
-}
-
-int getIndexAthlete(RegistoPassagem arr[], int dr, int size) {
-  int i, val = -1;
-
-  for (i = 0; i < size; i++) {
-    if(arr[i].dorsal == dr) {
-      val = i;
-       break;
-    } 
-  }
-
-  return val;
 }
