@@ -51,12 +51,14 @@ int converteParaHorasAposInicio( const char *diaDaSemana, int horaDoDia )
 	}
 	return horasPassadas; 
 }
-}
 
 int minutosEmProva( Tempo tempo )
 {
-  /* CÓDIGO A CRIAR PELOS ALUNOS */
-  return 0;  /* return PROVISÓRIO -- NECESSÁRIO ALTERAR */
+  int tempoTotal; /*acessa os membros do struct Tempo */
+	
+	tempoTotal = tempo.horasAposInicio * 60 + tempo.minutosAposHorasAposInicio;
+	
+	return tempoTotal; 
 }
 
 int dorsal( Atleta atleta )
