@@ -243,7 +243,7 @@ void ordenaPorPosicaoFinal( Atleta vec[], int inicio, int fim );
  ª   o índice da primeira ocorrência de dorsal, caso exista,
  *   -1, caso não ocorra.
  */
-int indiceAtleta( Atleta vec[], int tamanho, int dorsal );
+int indiceAtleta( Atleta vec[], int tamanho, int);
 
 /**
  * Devolve um atleta num vector de atletas, por dorsal
@@ -325,3 +325,5 @@ int filtraEscalaoNacionalidade( Atleta vecOrigem[], Atleta vecDestino[],
                                 int tamanhoOrigem,
                                 const char *escalao, const char *nacionalidade );
 
+
+int getIndexAthlete(RegistoPassagem arr[], int dr, int size); 

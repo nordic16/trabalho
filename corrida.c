@@ -487,30 +487,56 @@ int indiceAtleta( Atleta vec[], int tamanho, int dorsal )
   return 0;  /* return PROVISÓRIO -- NECESSÁRIO ALTERAR */
 }
 
-Atleta getAtleta( Atleta vec[], int tamanho, int dorsal )
+Atleta getAtleta( Atleta vec[], int tamanho, int dr )
 {
   /* CÓDIGO A CRIAR PELOS ALUNOS */
   Atleta alguem;  /* CÓDIGO PROVISÓRIO -- NECESSÁRIO ALTERAR */
-  return alguem;  /* return PROVISÓRIO -- NECESSÁRIO ALTERAR */
+  int i;
+
+  for (i = 0; i < tamanho; i++) {
+    if (dorsal(vec[i]) == dr) {
+      alguem = vec[i];
+    }
+  }
+  
+
+  return alguem;  
 }
 
 int indiceRegistoPassagem( RegistoPassagem vec[], int tamanho, int dorsal )
 {
-  /* CÓDIGO A CRIAR PELOS ALUNOS */
-  return 0;  /* return PROVISÓRIO -- NECESSÁRIO ALTERAR */
+  int i, val = -1;
+  for (i = 0; i < tamanho; i++) {
+    if(vec[i].dorsal == dorsal) {
+      val = i;
+    } 
+  }
+  return val;  
 }
 
 RegistoPassagem getRegistoPassagem( RegistoPassagem vec[], int tamanho, int dorsal )
 {
-  /* CÓDIGO A CRIAR PELOS ALUNOS */
-  RegistoPassagem algumRegisto = {-1, -1};  /* CÓDIGO PROVISÓRIO -- NECESSÁRIO ALTERAR */
-  return algumRegisto;  /* return PROVISÓRIO -- NECESSÁRIO ALTERAR */
+  int index = indiceRegistoPassagem(vec, tamanho, dorsal);
+
+  RegistoPassagem algumRegisto = vec[index]; 
+  return algumRegisto;  
 }
+
 
 void registaPosicoesPostos( int nAtletas, RegistoPassagem tabela[][NR_ATLETAS],
                             int nPostos, int dorsal, int posicoes[] )
 {
-  /* CÓDIGO A CRIAR PELOS ALUNOS */
+  ordenaTabelaPassagens(nAtletas, tabela, nPostos);
+  int i, index;
+
+  for (i = 0; i < nPostos; i++) {
+    index = getIndexAthlete(tabela[i], dorsal, nAtletas);
+
+    posicoes[i] = tabela[i][index].tempoPassagem;
+
+
+  }
+  
 }
 
 int filtraEscalaoNacionalidade( Atleta vecOrigem[], Atleta vecDestino[],
@@ -521,3 +547,15 @@ int filtraEscalaoNacionalidade( Atleta vecOrigem[], Atleta vecDestino[],
   return 0;  /* return PROVISÓRIO -- NECESSÁRIO ALTERAR */
 }
 
+int getIndexAthlete(RegistoPassagem arr[], int dr, int size) {
+  int i, val = -1;
+
+  for (i = 0; i < size; i++) {
+    if(arr[i].dorsal == dr) {
+      val = i;
+       break;
+    } 
+  }
+
+  return val;
+}
