@@ -38,16 +38,19 @@ void fundirPF( Atleta vec[], int inicio, int meio, int fim );
 
 int converteParaHorasAposInicio( const char *diaDaSemana, int horaDoDia )
 {
-	int horasPassadas;
+	int horasPassadas = 0; 
 	
-	if (*diaDaSemana == 'Fri.')
+	if(!strcmp( diaDaSemana, "Fri." )){
 		horasPassadas = horaDoDia - 18;
-	else if (*diaDaSemana == 'Sat.')
-		horasPassadas += horaDoDia;
-	else (*diaDaSemana == 'Sun.')
-		horasPassadas += horaDoDia;
-	
-	return horasPassadas;  /* return PROVISÓRIO -- NECESSÁRIO ALTERAR */
+	}
+	else if( !strcmp( diaDaSemana, "Sat." )){
+		horasPassadas = horaDoDia + 6;
+	}	
+	else if( !strcmp( diaDaSemana, "Sun.")){
+				horasPassadas = horaDoDia + 30;
+	}
+	return horasPassadas; 
+}
 }
 
 int minutosEmProva( Tempo tempo )
