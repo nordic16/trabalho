@@ -16,7 +16,7 @@ void preencheAte( char *vectorDestino, const char *vectorOrigem,
 
 /* função auxiliar de inicializaAtletas;
    devolve o índice da próxima ocorrência de chave em vector
-   a partir de indiceInicial;
+   a partir de  a indiceInicial;
    vector é uma string bem formada (terminada com '\0');
    chave não pode ser '\0';
    devolve -1 se não encontrar chave */
