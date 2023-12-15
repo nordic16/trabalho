@@ -326,4 +326,3 @@ int filtraEscalaoNacionalidade( Atleta vecOrigem[], Atleta vecDestino[],
                                 const char *escalao, const char *nacionalidade );
 
 
-int getIndexAthlete(RegistoPassagem arr[], int dr, int size); 

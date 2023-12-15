@@ -522,21 +522,6 @@ Atleta getAtleta( Atleta vec[], int tamanho, int dorsal )
 	return atleta; /* retorna o atleta fornecido pela funçao indiceAtleta */
 }
 
-Atleta getAtleta( Atleta vec[], int tamanho, int dr )
-{
-  /* CÓDIGO A CRIAR PELOS ALUNOS */
-  Atleta alguem;  /* CÓDIGO PROVISÓRIO -- NECESSÁRIO ALTERAR */
-  int i;
-
-  for (i = 0; i < tamanho; i++) {
-    if (dorsal(vec[i]) == dr) {
-      alguem = vec[i];
-    }
-  }
-  
-
-  return alguem;  
-}
 
 int indiceRegistoPassagem( RegistoPassagem vec[], int tamanho, int dorsal )
 {
@@ -559,18 +544,18 @@ RegistoPassagem getRegistoPassagem( RegistoPassagem vec[], int tamanho, int dors
 
 
 /* PRECISA DE SER TESTADO */
-void registaPosicoesPostos( int nAtletas, RegistoPassagem tabela[][NR_ATLETAS],
+void RegistaPos ( int nAtletas, RegistoPassagem tabela[][NR_ATLETAS],
                             int nPostos, int dorsal, int posicoes[] )
 {
-  ordenaTabelaPassagens(nAtletas, tabela, nPostos);
   int i, index;
 
   for (i = 0; i < nPostos; i++) {
-    index = indiceRegistoPassagem(tabela[i], nAtletas, dorsal);
-
+    /* Obtem o indice do registo de passagem correspondente ao atleta de dorsal dorsal*/
+    index = indiceRegistoPassagem(tabela[i], nAtletas, dorsal); 
+    /* A posição i deve corresponder ao tempo de passagem do atleta de
+      dorsal dorsal no posto de controlo i. */
     posicoes[i] = tabela[i][index].tempoPassagem;
-  }
-  
+  } 
 }
 
 int filtraEscalaoNacionalidade( Atleta vecOrigem[], Atleta vecDestino[],
