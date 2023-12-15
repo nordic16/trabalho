@@ -446,7 +446,25 @@ void fundir( RegistoPassagem vec[], int inicio, int meio, int fim )
 void ordenaTabelaPassagens( int nAtletas, RegistoPassagem tabela[][NR_ATLETAS],
                             int nPostos )
 {
-  /* CÓDIGO A CRIAR PELOS ALUNOS */
+  	int linha; /* contador de postos*/
+	int k; /* contador de atletas*/
+	int j;
+	
+	for( linha = 0; linha < nPostos; linha++) {
+		/* bubble sort */
+		for( k = 0; k < nAtletas - 1 ; k++) {
+			for( j = 0; j < nAtletas - k - 1; j++){
+			    if (tabela[linha][j].tempoPassagem > tabela[linha][j + 1].tempoPassagem){
+				/* troca elementos se estiverem fora de ordem */
+				
+				RegistoPassagem temp = tabela[linha][j];
+				tabela[linha][j] = tabela[linha][j + 1];
+				tabela[linha][j + 1] = temp;
+				
+				}
+			}
+		}
+	}
 }
 
 /**

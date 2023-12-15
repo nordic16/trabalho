@@ -5,55 +5,60 @@
 #include "corrida.h"
 
 /************************************************************************
- * ProtÛtipos de funÁıes auxiliares com ‚mbito restrito a este ficheiro *
+ * Prot√≥tipos de fun√ß√µes auxiliares com √¢mbito restrito a este ficheiro *
  ************************************************************************/
 
-/* funÁ„o auxiliar de inicializaAtletas;
+/* fun√ß√£o auxiliar de inicializaAtletas;
    copia a substring de vectorOrigem para vectorDestino desde
-   indiceInicial atÈ ser encontrado terminador, o qual n„o È copiado*/
+   indiceInicial at√© ser encontrado terminador, o qual n√£o √© copiado*/
 void preencheAte( char *vectorDestino, const char *vectorOrigem,
                   int indiceInicial, char terminador );
 
-/* funÁ„o auxiliar de inicializaAtletas;
-   devolve o Ìndice da prÛxima ocorrÍncia de chave em vector
+/* fun√ß√£o auxiliar de inicializaAtletas;
+   devolve o √≠ndice da pr√≥xima ocorr√™ncia de chave em vector
    a partir de indiceInicial;
-   vector È uma string bem formada (terminada com '\0');
-   chave n„o pode ser '\0';
-   devolve -1 se n„o encontrar chave */
+   vector √© uma string bem formada (terminada com '\0');
+   chave n√£o pode ser '\0';
+   devolve -1 se n√£o encontrar chave */
 int proximaOcorrencia( const char *vector, int indiceInicial, char chave );
 
-/* funÁ„o auxiliar de ordenaPorTempoPassagem;
+/* fun√ß√£o auxiliar de ordenaPorTempoPassagem;
  * funde duas metades ordenadas do vector vec
  */
 void fundir( RegistoPassagem vec[], int inicio, int meio, int fim );
 
-/* funÁ„o auxiliar de ordenaPorPosicaoFinal;
+/* fun√ß√£o auxiliar de ordenaPorPosicaoFinal;
  * funde duas metades ordenadas do vector vec
  */
 void fundirPF( Atleta vec[], int inicio, int meio, int fim );
 
 /********************************************
- * ImplementaÁ„o das funÁıes de "corrida.h" *
+ * Implementa√ß√£o das fun√ß√µes de "corrida.h" *
  ********************************************/
 
 int converteParaHorasAposInicio( const char *diaDaSemana, int horaDoDia )
 {
-	int horasPassadas;
+	int horasPassadas = 0; 
 	
-	if (*diaDaSemana == 'Fri.')
+	if(!strcmp( diaDaSemana, "Fri." )){
 		horasPassadas = horaDoDia - 18;
-	else if (*diaDaSemana == 'Sat.')
-		horasPassadas += horaDoDia;
-	else (*diaDaSemana == 'Sun.')
-		horasPassadas += horaDoDia;
-	
-	return horasPassadas;  /* return PROVIS”RIO -- NECESS¡RIO ALTERAR */
+	}
+	else if( !strcmp( diaDaSemana, "Sat." )){
+		horasPassadas = horaDoDia + 6;
+	}	
+	else if( !strcmp( diaDaSemana, "Sun.")){
+				horasPassadas = horaDoDia + 30;
+	}
+	return horasPassadas; 
 }
 
 int minutosEmProva( Tempo tempo )
 {
-  /* C”DIGO A CRIAR PELOS ALUNOS */
-  return 0;  /* return PROVIS”RIO -- NECESS¡RIO ALTERAR */
+  int tempoTotal; /*acessa os membros do struct Tempo */
+	
+	tempoTotal = tempo.horasAposInicio * 60 + tempo.minutosAposHorasAposInicio;
+	
+	return tempoTotal; 
 }
 
 int dorsal( Atleta atleta )
@@ -122,7 +127,7 @@ Tempo tempo( int tempoPassagem )
   return resultado;
 }
 
-/* faz-se programaÁ„o defensiva mÌnima */
+/* faz-se programa√ß√£o defensiva m√≠nima */
 void inicializaAtletas( Atleta listaAtletas[], int tamanhoLista,
                         const char *nomeFicheiro )
 {
@@ -131,17 +136,17 @@ void inicializaAtletas( Atleta listaAtletas[], int tamanhoLista,
   if ( readPtr == NULL )
     puts( "ERRO\n" );
 
-  int conta = 0;  /* Ìndice que percorre as linhas do ficheiro e listaAtletas */
-  char linha[MAX_COLS_FICH_STARTERS + 2];  /* guardar· 1 linha de cada vez */
+  int conta = 0;  /* √≠ndice que percorre as linhas do ficheiro e listaAtletas */
+  char linha[MAX_COLS_FICH_STARTERS + 2];  /* guardar√° 1 linha de cada vez */
   char membro[TAMANHO_MAX_NOME_EQUIPA + 1];  /* parte de uma linha */
-  int indicePontoVirgula; /* Ìndice onde se encontra um ';' no array linha */
+  int indicePontoVirgula; /* √≠ndice onde se encontra um ';' no array linha */
 
   /* descarta as 3 primeiras linhas do ficheiro */
   for ( conta = 0; conta < 3; conta++ )
     fgets( linha, MAX_COLS_FICH_STARTERS + 2, readPtr );
 
-  /* lÍ os detalhes de identificaÁ„o de cada atleta em cada linha do ficheiro,
-     descartando a identificaÁ„o da equipa */
+  /* l√™ os detalhes de identifica√ß√£o de cada atleta em cada linha do ficheiro,
+     descartando a identifica√ß√£o da equipa */
   conta = 0;
   while ( fgets( linha, MAX_COLS_FICH_STARTERS + 2, readPtr ) != NULL
           && conta < tamanhoLista )
@@ -155,7 +160,7 @@ void inicializaAtletas( Atleta listaAtletas[], int tamanhoLista,
     indicePontoVirgula = proximaOcorrencia( linha, indicePontoVirgula + 1, ';' );
 
     preencheAte( membro, linha, indicePontoVirgula + 1 , ';' );
-    /* a equipa È ignorada */
+    /* a equipa √© ignorada */
     indicePontoVirgula = proximaOcorrencia( linha, indicePontoVirgula + 1, ';' );
 
     preencheAte( membro, linha, indicePontoVirgula + 1 , ';' );
@@ -181,10 +186,10 @@ void atribuiResultadosNaMeta( Atleta listaAtletas[], int tamanhoLista,
   if ( readPtr == NULL )
     puts( "ERRO\n" );
 
-  int conta = 0;  /* Ìndice que percorre 3 linhas do ficheiro, e listaAtletas */
-  char linha[MAX_COLS_FICH_FINAL + 2];  /* guardar· 1 linha de cada vez */
+  int conta = 0;  /* √≠ndice que percorre 3 linhas do ficheiro, e listaAtletas */
+  char linha[MAX_COLS_FICH_FINAL + 2];  /* guardar√° 1 linha de cada vez */
   char membro[TAMANHO_MAX_NOME_EQUIPA + 1];  /* parte de uma linha */
-  int indiceSeparador; /* Ìndice onde se encontra um ';' ou ':' no array linha */
+  int indiceSeparador; /* √≠ndice onde se encontra um ';' ou ':' no array linha */
   int guardaPosicaoFinalAbsoluta;
   int guardaDorsal;
   int guardaPosicaoFinalEscalao;
@@ -194,12 +199,12 @@ void atribuiResultadosNaMeta( Atleta listaAtletas[], int tamanhoLista,
   for ( conta = 0; conta < 3; conta++ )
     fgets( linha, MAX_COLS_FICH_FINAL + 2, readPtr );
 
-  /* lÍ os detalhes de desempenho de cada atleta em cada linha do ficheiro,
-     descartando a informaÁ„o desnecess·ria */
+  /* l√™ os detalhes de desempenho de cada atleta em cada linha do ficheiro,
+     descartando a informa√ß√£o desnecess√°ria */
   conta = 0;
   while ( fgets( linha, MAX_COLS_FICH_FINAL + 2, readPtr ) != NULL )
   {
-    /* ler os valores dos membros e guard·-los em vari·veis tempor·rias */
+    /* ler os valores dos membros e guard√°-los em vari√°veis tempor√°rias */
 
     preencheAte( membro, linha, 0, ';' );
     guardaPosicaoFinalAbsoluta = atoi( membro ); /* converte para int */
@@ -210,36 +215,36 @@ void atribuiResultadosNaMeta( Atleta listaAtletas[], int tamanhoLista,
     indiceSeparador = proximaOcorrencia( linha, indiceSeparador + 1, ';' );
 
     preencheAte( membro, linha, indiceSeparador + 1 , ';' );
-    /* o nome È ignorado */
+    /* o nome √© ignorado */
     indiceSeparador = proximaOcorrencia( linha, indiceSeparador + 1, ';' );
 
     preencheAte( membro, linha, indiceSeparador + 1 , ';' );
-    /* a equipa È ignorada */
+    /* a equipa √© ignorada */
     indiceSeparador = proximaOcorrencia( linha, indiceSeparador + 1, ';' );
 
     preencheAte( membro, linha, indiceSeparador + 1 , ';' );
-    /* o escal„o È ignorado */
+    /* o escal√£o √© ignorado */
     indiceSeparador = proximaOcorrencia( linha, indiceSeparador + 1, ';' );
 
     preencheAte( membro, linha, indiceSeparador + 1 , ';' );
     guardaPosicaoFinalEscalao = atoi( membro ); /* converte para int */
     indiceSeparador = proximaOcorrencia( linha, indiceSeparador + 1, ';' );
 
-    /* prÛximo separador È ':' */
+    /* pr√≥ximo separador √© ':' */
     preencheAte( membro, linha, indiceSeparador + 1 , ':' );
     guardaTempoNaMeta[0] = atoi( membro );
     indiceSeparador = proximaOcorrencia( linha, indiceSeparador + 1, ':' );
-    /* prÛximo separador È ':' */
+    /* pr√≥ximo separador √© ':' */
     preencheAte( membro, linha, indiceSeparador + 1 , ':' );
     guardaTempoNaMeta[1] = atoi( membro );
     indiceSeparador = proximaOcorrencia( linha, indiceSeparador + 1, ':' );
-    /* prÛximo separador È novamente ';' */
+    /* pr√≥ximo separador √© novamente ';' */
     preencheAte( membro, linha, indiceSeparador + 1 , ';' );
     guardaTempoNaMeta[2] = atoi( membro );
 
-    /* os restantes 2 campos do ficheiro s„o ignorados */
+    /* os restantes 2 campos do ficheiro s√£o ignorados */
 
-    /* procurar o atleta pelo n˙mero de dorsal,
+    /* procurar o atleta pelo n√∫mero de dorsal,
        e atribuir-lhe os valores guardados temporariamente */
 
     while ( listaAtletas[conta].dorsal != guardaDorsal && conta < tamanhoLista )
@@ -263,10 +268,10 @@ void atribuiTemposPassagem( Atleta listaAtletas[], int tamanhoLista,
   if ( readPtr == NULL )
     puts( "ERRO\n" );
 
-  int conta = 0;  /* Ìndice que percorre listaAtletas */
-  char linha[MAX_COLS_FICH_PROGRESS + 2];  /* guardar· 1 linha de cada vez */
+  int conta = 0;  /* √≠ndice que percorre listaAtletas */
+  char linha[MAX_COLS_FICH_PROGRESS + 2];  /* guardar√° 1 linha de cada vez */
   char membro[TAMANHO_MAX_NOME_ATLETA + 1];  /* parte de uma linha */
-  int indiceSeparador; /* Ìndice de um ';' ou ' ' ou ':' no array linha */
+  int indiceSeparador; /* √≠ndice de um ';' ou ' ' ou ':' no array linha */
   int dorsal;
   int contaPostos;  /* contador a usar no ciclo que percorre temposPassagem[] */
   char diaDaSemana[5];
@@ -276,26 +281,26 @@ void atribuiTemposPassagem( Atleta listaAtletas[], int tamanhoLista,
   /* descarta a primeira linha do ficheiro */
   fgets( linha, MAX_COLS_FICH_PROGRESS + 2, readPtr );
 
-  /* lÍ os tempos de passagem de cada atleta em cada linha do ficheiro,
-     descartando a informaÁ„o desnecess·ria */
+  /* l√™ os tempos de passagem de cada atleta em cada linha do ficheiro,
+     descartando a informa√ß√£o desnecess√°ria */
   conta = 0;
   while ( fgets( linha, MAX_COLS_FICH_PROGRESS + 2, readPtr ) != NULL )
   {
-    /* ler os valores dos membros e guard·-los em vari·veis tempor·rias */
+    /* ler os valores dos membros e guard√°-los em vari√°veis tempor√°rias */
 
     preencheAte( membro, linha, 0, ';' );
     dorsal = atoi( membro ); /* converte para int */
     indiceSeparador = proximaOcorrencia( linha, 0, ';' );
 
     preencheAte( membro, linha, indiceSeparador + 1 , ';' );
-    /* o nome È ignorado */
+    /* o nome √© ignorado */
     indiceSeparador = proximaOcorrencia( linha, indiceSeparador + 1, ';' );
 
     preencheAte( membro, linha, indiceSeparador + 1 , ';' );
-    /* o escal„o È ignorado */
+    /* o escal√£o √© ignorado */
     indiceSeparador = proximaOcorrencia( linha, indiceSeparador + 1, ';' );
 
-    /* procurar o atleta pelo n˙mero de dorsal */
+    /* procurar o atleta pelo n√∫mero de dorsal */
     while ( listaAtletas[conta].dorsal != dorsal && conta < tamanhoLista )
       conta++;
 
@@ -304,7 +309,7 @@ void atribuiTemposPassagem( Atleta listaAtletas[], int tamanhoLista,
     for ( contaPostos = 0; contaPostos < NR_PONTOS_PASSAGEM - 1; contaPostos++ )
     {
       preencheAte( membro, linha, indiceSeparador + 1 , ';' );
-      if ( membro[0] == '.' ) /* atleta n„o passou neste posto de controle */
+      if ( membro[0] == '.' ) /* atleta n√£o passou neste posto de controle */
       {
         listaAtletas[conta].temposPassagem[contaPostos] = 10000;
         indiceSeparador = proximaOcorrencia( linha, indiceSeparador + 1, ';' );
@@ -326,9 +331,9 @@ void atribuiTemposPassagem( Atleta listaAtletas[], int tamanhoLista,
       }
     }
 
-    /* ˙ltimo posto de controle */
+    /* √∫ltimo posto de controle */
     preencheAte( membro, linha, indiceSeparador + 1 , '\n' );
-    if ( membro[0] == '.' )  /* atleta n„o passou neste posto de controle */
+    if ( membro[0] == '.' )  /* atleta n√£o passou neste posto de controle */
       listaAtletas[conta].temposPassagem[contaPostos] = 10000;
     else /* atleta tem hora de passagem registada neste posto de controle */
     {
@@ -351,8 +356,8 @@ void atribuiTemposPassagem( Atleta listaAtletas[], int tamanhoLista,
 void preencheAte( char *vectorDestino, const char *vectorOrigem,
                   int indiceInicial, char terminador )
 {
-  int i = 0; /* Ìndice para percorrer vectorDestino */
-  int j = indiceInicial; /* Ìndice para percorrer vectorOrigem */
+  int i = 0; /* √≠ndice para percorrer vectorDestino */
+  int j = indiceInicial; /* √≠ndice para percorrer vectorOrigem */
 
   while ( vectorOrigem[j] != terminador )
   {
@@ -365,7 +370,7 @@ void preencheAte( char *vectorDestino, const char *vectorOrigem,
 
 int proximaOcorrencia( const char *vector, int indiceInicial, char chave )
 {
-  int j = indiceInicial; /* Ìndice para percorrer vector */
+  int j = indiceInicial; /* √≠ndice para percorrer vector */
 
   while ( vector[j] != chave  && vector[j] != '\0' )
     j++;
@@ -395,10 +400,10 @@ void preencheTabelaPassagens( Atleta listaAtletas[], int tamanhoLista,
 
 
 /**
- * Baseado em cÛdigo de Francisco Martins modificado por Carlos LourenÁo.
+ * Baseado em c√≥digo de Francisco Martins modificado por Carlos Louren√ßo.
  * Maio 2007; Maio 2008; Dezembro 2023.
  */
-/* implementa a ordenaÁ„o por fus„o */
+/* implementa a ordena√ß√£o por fus√£o */
 void ordenaPorTempoPassagem( RegistoPassagem vec[], int inicio, int fim )
 {
   int meio;
@@ -421,7 +426,7 @@ void fundir( RegistoPassagem vec[], int inicio, int meio, int fim )
   int destino = 0;
 
   while ( part1 <= meio && part2 <= fim)
-    /* usar <= em vez de < na comparaÁ„o de modo a a ordenaÁ„o ser est·vel */
+    /* usar <= em vez de < na compara√ß√£o de modo a a ordena√ß√£o ser est√°vel */
     aux [destino++] = vec[part1].tempoPassagem <= vec[part2].tempoPassagem ?
                       vec[part1++] : vec[part2++];
 
@@ -441,14 +446,32 @@ void fundir( RegistoPassagem vec[], int inicio, int meio, int fim )
 void ordenaTabelaPassagens( int nAtletas, RegistoPassagem tabela[][NR_ATLETAS],
                             int nPostos )
 {
-  /* C”DIGO A CRIAR PELOS ALUNOS */
+  	i	int linha; /* contador de postos*/
+	int k; /* contador de atletas*/
+	int j;
+	
+	for( linha = 0; linha < nPostos; linha++) {
+		/* bubble sort */
+		for( k = 0; k < nAtletas - 1 ; k++) {
+			for( j = 0; j < nAtletas - k - 1; j++){
+			    if (tabela[linha][j].tempoPassagem > tabela[linha][j + 1].tempoPassagem){
+				/* troca elementos se estiverem fora de ordem */
+				
+				RegistoPassagem temp = tabela[linha][j];
+				tabela[linha][j] = tabela[linha][j + 1];
+				tabela[linha][j + 1] = temp;
+				
+				}
+			}
+		}
+	}
 }
 
 /**
- * Baseado em cÛdigo de Francisco Martins modificado por Carlos LourenÁo.
+ * Baseado em c√≥digo de Francisco Martins modificado por Carlos Louren√ßo.
  * Maio 2007; Maio 2008; Dezembro 2023.
  */
-/* implementa a ordenaÁ„o por fus„o */
+/* implementa a ordena√ß√£o por fus√£o */
 void ordenaPorPosicaoFinal( Atleta vec[], int inicio, int fim )
 {
   int meio;
@@ -471,7 +494,7 @@ void fundirPF( Atleta vec[], int inicio, int meio, int fim )
   int destino = 0;
 
   while ( part1 <= meio && part2 <= fim)
-    /* usar <= em vez de < na comparaÁ„o de modo a a ordenaÁ„o ser est·vel */
+    /* usar <= em vez de < na compara√ß√£o de modo a a ordena√ß√£o ser est√°vel */
     aux [destino++] = vec[part1].posicaoFinalAbsoluta
                       <= vec[part2].posicaoFinalAbsoluta ?
                       vec[part1++] : vec[part2++];
@@ -491,25 +514,32 @@ void fundirPF( Atleta vec[], int inicio, int meio, int fim )
 
 int indiceAtleta( Atleta vec[], int tamanho, int dorsal )
 {
-  /* C”DIGO A CRIAR PELOS ALUNOS */
-  return 0;  /* return PROVIS”RIO -- NECESS¡RIO ALTERAR */
-}
-
-Atleta getAtleta( Atleta vec[], int tamanho, int dr )
-{
-  /* C”DIGO A CRIAR PELOS ALUNOS */
-  Atleta alguem;  /* C”DIGO PROVIS”RIO -- NECESS¡RIO ALTERAR */
-  int i;
-
-  for (i = 0; i < tamanho; i++) {
-    if (dorsal(vec[i]) == dr) {
-      alguem = vec[i];
-    }
+  int i = 0; /* contador para percorrer o vetor de atletas */
+	
+  while(vec[i].dorsal != dorsal && i < tamanho)
+  {
+    i++;
   }
-  
-
-  return alguem;  
+    /* ciclo while que procura pelo dorsal pretendido ao 
+       longo do array de atletas e para quando o encontra */
+	
+  if( i == tamanho )
+    i = -1;
+    /* confirma se o dorsal foi encontrado ou n√£o (se i ==
+       tamanho entao nao foi encontrado) */
+	
+  return i;
 }
+
+Atleta getAtleta( Atleta vec[], int tamanho, int dorsal ) 
+{
+	Atleta atleta;
+	
+	atleta = vec[indiceAtleta( vec, tamanho, dorsal )];
+	
+	return atleta; /* retorna o atleta fornecido pela fun√ßao indiceAtleta */
+}
+
 
 int indiceRegistoPassagem( RegistoPassagem vec[], int tamanho, int dorsal )
 {
@@ -532,24 +562,78 @@ RegistoPassagem getRegistoPassagem( RegistoPassagem vec[], int tamanho, int dors
 
 
 /* PRECISA DE SER TESTADO */
-void registaPosicoesPostos( int nAtletas, RegistoPassagem tabela[][NR_ATLETAS],
+void registaPosicoesPostos ( int nAtletas, RegistoPassagem tabela[][NR_ATLETAS],
                             int nPostos, int dorsal, int posicoes[] )
 {
-  ordenaTabelaPassagens(nAtletas, tabela, nPostos);
   int i, index;
 
   for (i = 0; i < nPostos; i++) {
-    index = indiceRegistoPassagem(tabela[i], nAtletas, dorsal);
-
+    /* Obtem o indice do registo de passagem correspondente ao atleta de dorsal dorsal*/
+    index = indiceRegistoPassagem(tabela[i], nAtletas, dorsal); 
+    /* A posi√ß√£o i deve corresponder ao tempo de passagem do atleta de
+      dorsal dorsal no posto de controlo i. */
     posicoes[i] = tabela[i][index].tempoPassagem;
-  }
-  
+  } 
 }
 
 int filtraEscalaoNacionalidade( Atleta vecOrigem[], Atleta vecDestino[],
                                 int tamanhoOrigem,
                                 const char *escalao, const char *nacionalidade )
 {
-  /* C”DIGO A CRIAR PELOS ALUNOS */
-  return 0;  /* return PROVIS”RIO -- NECESS¡RIO ALTERAR */
+  Atleta vecAux[NR_ATLETAS]; /* vetor auxiliar onde ficam os atletas selecionados 
+ 				pelo primeiro filtro */
+  int i; /* indice para percorrer o array de atletas */
+  int j = 0; /* indice para percorrer o array auxiliar de atletas */
+  int k = 0; /* indice para percorrer o array destino de atletas */
+	
+  if( strlen(escalao) != 0)
+  {
+    /* ciclo for que procura pelo escalao em todos os atletas de 
+       vecOrigem e quando encontra copia o atleta para o vecAux */
+    for(i = 0; i < tamanhoOrigem; i++)
+    {
+      if(strcmp(vecOrigem[i].escalao, escalao) == 0)
+      {
+	vecAux[j] = vecOrigem[i];
+				
+	j++;
+      }
+    }
+  }
+  else
+  {
+    /* caso este filtro nao seja requisitado 
+       executa as seguintes atribui√ßoes */
+    j = tamanhoOrigem;
+		
+    for(i = 0; i < tamanhoOrigem; i++)
+    {
+      vecAux[i] = vecOrigem[i];
+    }
+  }
+		
+  if(strlen(nacionalidade) != 0)
+  {
+    /* codigo analogo ao de cima */
+    for(i = 0; i < j; i++)
+    {
+      if(strcmp(vecAux[i].nacionalidade, nacionalidade) == 0)
+      {
+	vecDestino[k] = vecAux[i];
+				
+	k++;
+      }
+    }
+  }
+  else
+  {
+    k = j;
+		
+    for(i = 0; i < tamanhoOrigem; i++)
+    {
+      vecDestino[i] = vecAux[i];
+    }
+  }
+	
+  return k;
 }
