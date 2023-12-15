@@ -446,7 +446,7 @@ void fundir( RegistoPassagem vec[], int inicio, int meio, int fim )
 void ordenaTabelaPassagens( int nAtletas, RegistoPassagem tabela[][NR_ATLETAS],
                             int nPostos )
 {
-  	i	int linha; /* contador de postos*/
+  	int linha; /* contador de postos*/
 	int k; /* contador de atletas*/
 	int j;
 	

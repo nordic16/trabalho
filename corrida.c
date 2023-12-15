@@ -561,7 +561,6 @@ RegistoPassagem getRegistoPassagem( RegistoPassagem vec[], int tamanho, int dors
 }
 
 
-/* PRECISA DE SER TESTADO */
 void registaPosicoesPostos ( int nAtletas, RegistoPassagem tabela[][NR_ATLETAS],
                             int nPostos, int dorsal, int posicoes[] )
 {
