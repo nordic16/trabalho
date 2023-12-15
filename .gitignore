@@ -50,3 +50,10 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+**/.DS_Store
+tests.c
+
+.vscode/
+tests
+cliente

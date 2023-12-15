@@ -544,7 +544,7 @@ RegistoPassagem getRegistoPassagem( RegistoPassagem vec[], int tamanho, int dors
 
 
 /* PRECISA DE SER TESTADO */
-void RegistaPos ( int nAtletas, RegistoPassagem tabela[][NR_ATLETAS],
+void registaPosicoesPostos ( int nAtletas, RegistoPassagem tabela[][NR_ATLETAS],
                             int nPostos, int dorsal, int posicoes[] )
 {
   int i, index;
