@@ -1,3 +1,7 @@
+/* Martim Beco 61914
+Diogo Domingos 61887
+Afonso Domingos 61895 */
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
